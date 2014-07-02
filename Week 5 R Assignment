@@ -1,0 +1,62 @@
+Week 5 R Assignment
+========================================================
+
+Assignment 1: Explain the difference between appending and preallocating. Why preallocate?
+
+A. Appending takes more computing overhead; it's faster to add elements to a preallocated data container. The example below shows the difference in computing time for a moderately long operation. 
+
+preallovec is an empty vector of length 5001. appendvec is an empty vector of length 1. Each of the loops add one integer value to the vectors 5,000 times. The system time shows that elapsed time of preallocating is much smaller (.02 vs .08 in the first trial). Results vary when running the comparsion multiple times, but the tendency holds for preallocation to be multiples of 3 or 4 times faster. The results you see in this knitr run may not match exactly. 
+
+```{r}
+
+preallovec <- vector(mode="numeric", length=5001)
+appendvec <- vector(mode="numeric", length=1)
+
+system.time(
+    for (i in 1:5000){
+    appendvec <- c(appendvec, i)
+    })
+
+system.time(
+for (i in 1:5000){
+    preallovec[i] <- i
+    })
+
+```
+
+
+Assignment 2: Load the MASS package and import housing data, then pull some interesting data from the Boston table into a data frame.
+
+This code loads the package and data and brings it up in the viewer. It looks at he top rows and prints a summary.
+
+```{r}
+
+library (MASS)
+require(MASS)
+data(Boston)
+#View(Boston)
+head(Boston)
+summary(Boston)
+
+```
+
+In this chunk, we investigate with a scatterplot matrix:
+
+```{r}
+
+pairs(~crim+age+rm+ptratio+black+medv,data=Boston, main="Exploratory Scatterplot, Boston Housing Data")
+
+```
+
+Based on the results, we become curious abut whether crime rate, age of the housing stock, taxes and race may predict median home value. We create a new data frame to further study those relationships.
+
+```{r}
+
+names(Boston)
+newBoston <- data.frame(Boston[, c(1,7, 10, 12, 14)])
+names(newBoston) <- c("Crime", "Age", "Taxes", "Race", "MedianValue")
+head(newBoston)
+summary(newBoston)
+
+```
+
