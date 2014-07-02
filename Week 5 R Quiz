@@ -1,0 +1,87 @@
+Cuny Week 5 R Quiz
+========================================================
+
+Question 1
+
+Reproduce the following matrices:
+
+```{r}
+vec <- c(1, -1, -1, 1)
+A <- matrix(vec, nrow=2, byrow=T)
+A
+```
+
+
+```{r}
+vec2 <- c(2, 3, -1, -2)
+B <- matrix(vec2, nrow=2, byrow=T)
+B
+
+```
+
+```{r}
+vec3 <- c(1,0,0,0)
+C <- matrix(vec3, nrow=2, byrow=T)
+C
+
+```
+
+```{r}
+vec4 <- c(0,1,0,1,0,0,0,0,1)
+D <- matrix(vec4, nrow=3, byrow=T)
+D
+```
+
+```{r}
+vec5 <- c(1,0,0,0,0,1,0,1,0)
+E <- matrix(vec5, nrow=3, byrow=T)
+E
+```
+
+Question 2
+
+An idempotent matrix is a matrix that, when multiplied by itself, returns itself. It appears the answer is C, D and E:
+
+```{r}
+
+A*A
+B*B
+C*C
+D*D
+E*E
+
+```
+
+
+Question 3
+
+Check whether any of the matrices is orthogonal. An n x n  matrix is orthogonal if, when multiplied by its transpose, the result is the Identity matrix. In R, the transpose of a matrix is provided by the function t(matrix). It seems that none of the matrices is orthogonal.
+
+```{r}
+
+A*t(A)
+B*t(B)
+C*t(C)
+D*t(D)
+E*t(E)
+
+```
+
+
+
+Question 4
+
+Make a list from a vector, matrix, arrray and data frame. First make the elements, then add them to a list.
+
+```{r}
+
+vec <- c(0,1,0,1,0,0,0,0,1)
+mat <- matrix(vec, nrow=3, byrow=T)
+arr <- array(vec+2)
+df <- data.frame(mat)
+mylist <- list(vec, mat, arr, df)
+names(mylist) <- c("vec", "mat", "arr", "df")
+mylist
+
+```
+
