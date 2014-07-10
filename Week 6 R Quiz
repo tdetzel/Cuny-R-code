@@ -1,0 +1,28 @@
+---
+title: "Week 6 R Quiz"
+output: html_document
+---
+
+Import data, look at head
+
+(Note: Using fread in the data.table package; this automatically detects headers. In the usual read.csv/read.table package, would indicate headers = TRUE.)
+
+```{r}
+
+library(data.table)
+df <- fread("C:/Users/Tom/Documents/Cuny/pizza-store-data.csv")
+head(df)
+summary(df)
+```
+
+
+Fix data types, check result
+```{r}
+
+str(df)
+df$date <- as.Date(df$date, "%m/%d/%Y")
+df$store <- as.factor(df$store)
+str(df)
+summary(df)
+```
+
