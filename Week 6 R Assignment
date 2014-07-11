@@ -1,0 +1,20 @@
+---
+title: "Week 6 R Assignment"
+author: "Tom Detzel"
+date: "Wednesday, July 09, 2014"
+output: html_document
+---
+
+This code reads in data from ProPublica's "Dollars for Docs" news app, which reports payments made by drug companies to doctors for speaking, consulting and other services. The data here is the first page from a search for payments to all California docs.
+
+url: http://projects.propublica.org/docdollars/search?state%5bid%5D=5
+
+
+```{r}
+require(XML)
+url <- "http://projects.propublica.org/docdollars/search?state%5bid%5D=5"
+corrupt <- readHTMLTable(url, which = 1, header = T, stringsAsFactors = F)
+head(corrupt)
+
+```
+
