@@ -1,0 +1,15 @@
+
+## library(RSQLite)
+## db must be in working directory
+
+db <- dbConnect(SQLite(), dbname="simplecharter.sqlite")
+dbListTables(db)
+dbListFields(db, "allchart")
+allchart <- as.data.frame(dbReadTable(db, "allchart"))
+head(allchart,2)
+
+require("MASS")
+data("Boston")
+head(Boston,2)
+write.csv(Boston, "Boston") 
+dbWriteTable(db, "Boston", Boston)
