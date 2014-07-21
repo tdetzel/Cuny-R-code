@@ -1,11 +1,11 @@
 Cuny Week 5 R Quiz
 ========================================================
-
+  
 Question 1
 
 Reproduce the following matrices:
 
-```{r}
+  ```{r}
 vec <- c(1, -1, -1, 1)
 A <- matrix(vec, nrow=2, byrow=T)
 A
@@ -40,35 +40,30 @@ E
 
 Question 2
 
-An idempotent matrix is a matrix that, when multiplied by itself, returns itself. It appears the answer is C, D and E:
+An idempotent matrix is a matrix that, when multiplied by itself, returns itself. It appears the answer is C.
+  
+  ```{r}
 
-```{r}
-
-A*A
-B*B
-C*C
-D*D
-E*E
+A%*%A
+B%*%B
+C%*%C
+D%*%D
+E%*%E
 
 ```
-
-
 Question 3
 
 Check whether any of the matrices is orthogonal. An n x n  matrix is orthogonal if, when multiplied by its transpose, the result is the Identity matrix. In R, the transpose of a matrix is provided by the function t(matrix). It seems that none of the matrices is orthogonal.
 
 ```{r}
 
-A*t(A)
-B*t(B)
-C*t(C)
-D*t(D)
-E*t(E)
+A%*%t(A)
+B%*%t(B)
+C%*%t(C)
+D%*%t(D)
+E%*%t(E)
 
 ```
-
-
-
 Question 4
 
 Make a list from a vector, matrix, arrray and data frame. First make the elements, then add them to a list.
@@ -84,4 +79,3 @@ names(mylist) <- c("vec", "mat", "arr", "df")
 mylist
 
 ```
-
