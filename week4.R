@@ -1,3 +1,14 @@
+# Question 1, three ways to assign values to variables
+x = 4
+y <- 6
+assign("z",4)
+
+## Question 2, use sum to count NA variables in a vector
+vec <- rep(c(1:10, NA), 20)
+sum(is.na(vec))
+
+
+## Question3, show the difference between library() and require()
 
 ## this demonstration function loads the package gtools using the library command
 
