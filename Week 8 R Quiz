@@ -1,0 +1,94 @@
+---
+title: Week 8 R Quiz
+output: html_document
+---
+
+Q1. Illustrate how to add element by element the contents of two numeric vectors of equal length using a for loop. Comment on how this differs from the easieer vector addition method preferred in R.
+
+```{r}
+
+vec1 <- 1:10
+vec2 <- 10:1
+vec0 <- as.numeric()
+
+for (i in 1:10){
+    sum <- vec1[i] + vec2[i]
+    vec0 <- c(vec0, sum)
+}
+
+vec1
+vec2
+vec0
+
+```
+
+Q2. Write code that uses a while loop that determines how many "heads" in a row an arbitrary vector of coin flips has starting at the beginning. An example of a vector input is c("heads","heads","tails","heads"). Your code should give an answer of 2 when run on this vector. Note that a vector that begins with "tails" should give an answer of 0.
+
+```{r}
+
+## heads = 1, tails = 0
+## must use while loop
+
+toss <- function(x) {
+        flips <- rbinom(x,1,0.5)
+        print('Here are your fair flips:', quote=F)
+        print(flips)
+        heads <- 0
+        i <- 1
+        while (i < (length(flips))) {
+            if(!flips[i]==1){
+                i <- (i+1)
+            } else {
+                if(!flips[i]==flips[i+1]) {
+                    i <- (i+1)
+                } else {
+                    heads <- (heads+1)
+                    i <- (i+1)
+            }
+        }
+    }
+        print('Count of consecutive heads:', quote=F)
+        print(heads)
+}
+
+toss(20)
+
+```
+
+Q3. Use a for loop running over all 100 integers from 1 to 100 and the ifelse() function to add only the odd numbers from 1 to 100.
+
+```{r}
+
+## x is vector 1:100; can be any vector of integers, though.
+## constructed to show vector of odds
+
+vec <- 1:100
+
+oddball <- function(x) {
+    require(gtools)
+    temp <- as.numeric()
+    for (i in 1:length(x)) {
+        ifelse(odd(x[i]), temp <- c(temp, x[i]), temp<-temp)
+        }
+    grandtotal <- sum(temp)
+    print('The odd numbers: ', quote=F)
+    print(temp)
+    print('The grand total: ', quote=F)
+    print(grandtotal)
+}
+
+oddball(vec)
+
+```
+
+BONUS: Can you show how to accomplish the same thing without using a loop?
+
+```{r}
+
+#vectorize, baby, vectorize
+
+odderstill <- sum(seq(1,100,by=2))
+odderstill
+
+```
+
