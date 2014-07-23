@@ -1,0 +1,117 @@
+---
+title: "Week 8 R Assignment"
+output: html_document
+---
+
+For your assignment, you will investigate a probability puzzle. Suppose a coin is flipped at random 100 times. We are curious to know what the probability is that there will be at least seven in a row of the same thing (either heads or tails) in the sequence of 100 flips. Run a simulation to estimate the probability by performing the following steps.
+
+Step 1: Use the rbinom() function with probability 0.5 to simulate a string of 100 coin flips.
+
+```{r}
+
+## heads = 1, tails = 0
+flips <- rbinom(100,1,0.5)
+flips
+
+```
+
+Step 2: Write code that will test the sequence you just generated to determine whether there is a string of at least seven in a row of either heads or tails. (You can choose whether to consider 0 heads and 1 tails or vice versa.)
+
+```{r}
+
+## function rle, for run length encoding, works for this job
+
+rflips <- rle(flips)
+rheads <- length(which(rflips$length==7 & rflips$values==1))
+rtails <- length(which(rflips$length==7 & rflips$values==0))
+
+rheads
+rtails
+
+```
+
+Step 3: Enclose the code for steps 1 and 2 in a loop so that you can run it a bunch of times. Use this loop to determine the proportion of 100-toss sequences that actually have at least seven in a row of the same thing. This is your estimate of the probability.
+
+```{r}
+## x = number of times to run loop
+
+sevens <- function(x) { 
+    
+    heads <- vector(mode="numeric")
+    tails <- vector(mode="numeric")
+    
+    for (i in 1:x) {
+        flips <- rbinom(100,1,0.5)
+        rflips <- rle(flips)
+        rheads <- length(which(rflips$lengths==7 & rflips$values==1))
+        rtails <- length(which(rflips$lengths==7 & rflips$values==0))
+        heads <- c(heads, rheads)
+        tails <- c(tails, rtails)
+        }
+    print('P-Seven Consecutive Heads:', quote=F)
+    print(sum(heads)/x)
+    print('P-Seven Consecutive Tails:', quote=F)
+    print(sum(tails)/x)
+}
+
+sevens(100)
+
+```
+
+Step 4: Run the loop with 10 such sequences. Then run it with 100, and 1000. (If you're really brave, run it more times still...) Comment both on how well your estimate seems to converge to a single answer and also how R performs at these loops. Do you notice a significant slowdown at 1000 sequences? What about 10,000? Where does your machine start really to grind to a halt?
+
+```{r}
+
+
+## not too bad, but I don't think I'll try 1 million 
+## system time checks
+
+## system.time(sevens(10))
+## system.time(sevens(100))
+## system.time(sevens(1000))
+## system.time(sevens(10000))
+## system.time(sevens(100000))
+
+```
+
+I'm pasting in these results because I don't want to set knitr on fire. But you can see the progression below. Running the function 100,000 times took 118 seconds, long enough for me get up from my desk and walk away. 
+
+> system.time(sevens(10))
+[1] P-Seven Consecutive Heads:
+[1] 0.2
+[1] P-Seven Consecutive Tails:
+[1] 0.3
+   user  system elapsed 
+      0       0       0 
+      
+> system.time(sevens(100))
+[1] P-Seven Consecutive Heads:
+[1] 0.19
+[1] P-Seven Consecutive Tails:
+[1] 0.19
+   user  system elapsed 
+   0.02    0.00    0.01 
+   
+> system.time(sevens(1000))
+[1] P-Seven Consecutive Heads:
+[1] 0.191
+[1] P-Seven Consecutive Tails:
+[1] 0.167
+   user  system elapsed 
+   0.17    0.00    0.17 
+   
+> system.time(sevens(10000))
+[1] P-Seven Consecutive Heads:
+[1] 0.1886
+[1] P-Seven Consecutive Tails:
+[1] 0.1922
+   user  system elapsed 
+   1.97    0.00    1.98 
+   
+> system.time(sevens(100000))
+[1] P-Seven Consecutive Heads:
+[1] 0.1876
+[1] P-Seven Consecutive Tails:
+[1] 0.18838
+   user  system elapsed 
+ 113.84    0.03  118.40 
