@@ -1,0 +1,69 @@
+Coefficient plots and residuals
+========================================================
+
+More plots suggesting an out-of-the-box linear model isn't great: 
+
+```{r}
+## setup
+require(coefplot)
+require(ggplot2)
+require(gridExtra)
+cuny9 <- read.csv("/Users/tjd/Documents/Coursera/Data/cuny9.csv", header=T)
+cuny9 <- cuny9[,-1]
+```
+
+The models we set up earlier:
+
+```{r}
+fitdat1 <- lm(y1~x1, cuny9)
+fitdat2 <- lm(y2~x2, cuny9)
+fitdat3 <- lm(y3~x3, cuny9)
+fitdat4 <- lm(y4~x4, cuny9)
+```
+
+Coefficient plot using package coefplot:
+
+```{r} 
+multiplot(fitdat1, fitdat2, fitdat3, fitdat4)
+```
+```{r}
+plotfit1 <-   ggplot( aes(x = .fitted, y =.resid), data = fitdat1) +
+              geom_point() +
+              geom_hline(yintercept = 0) +
+              geom_smooth(se = FALSE) +
+              labs( x ="Fitted Values", y ="Residuals")
+
+plotfit2 <-   ggplot( aes(x = .fitted, y =.resid), data = fitdat2) +
+              geom_point() +
+              geom_hline(yintercept = 0) +
+              geom_smooth(se = FALSE) +
+              labs( x ="Fitted Values", y ="Residuals")
+
+plotfit3 <-   ggplot( aes(x = .fitted, y =.resid), data = fitdat3) +
+              geom_point() +
+              geom_hline(yintercept = 0) +
+              geom_smooth(se = FALSE) +
+              labs( x ="Fitted Values", y ="Residuals")
+
+plotfit4 <-   ggplot( aes(x = .fitted, y =.resid), data = fitdat4) +
+              geom_point() +
+              geom_hline(yintercept = 0) +
+              geom_smooth(se = FALSE) +
+              labs( x ="Fitted Values", y ="Residuals")
+
+```
+
+QQ plots of residuals suggest fits aren't great, especially for x3,y3: 
+
+```{r}
+qqdat1 <- ggplot(fitdat1, aes(sample = .stdresid)) + stat_qq() + geom_abline()
+qqdat2 <- ggplot(fitdat2, aes(sample = .stdresid)) + stat_qq() + geom_abline()
+qqdat3 <- ggplot(fitdat3, aes(sample = .stdresid)) + stat_qq() + geom_abline()
+qqdat4 <- ggplot(fitdat4, aes(sample = .stdresid)) + stat_qq() + geom_abline()
+qqdat1
+qqdat2
+qqdat3
+qqdat4
+
+```
+
