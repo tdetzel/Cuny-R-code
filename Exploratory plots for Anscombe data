@@ -1,0 +1,111 @@
+Some basic exploration of the you-know-what data
+========================================================
+
+The cat is out of the bag about the source of our data. But that doesn't mean we can't have some fun exploring it anyway. There are lessons to learn about tools, methods and the nature of data interpretation. At the end of this file, I suggest one possible finding and an avenue for further exploration. 
+
+This document assumes the data is already in a data frame called cuny9. How to do that is described in initial posts. 
+
+First, some setup:
+
+```{r}
+require(ggplot2)
+require(gridExtra)
+cuny9 <- read.csv("/Users/tjd/Documents/Coursera/Data/cuny9.csv", header=T)
+cuny9 <- cuny9[,-1]
+```
+
+Here's the data summary we've seen earlier:
+
+```{r}
+
+summary(cuny9)
+
+```
+As some team members have noted, there are curious similarities. Exmaine the means of y variables. All are 7.5. The mean for x vars is also the same: 9.0. 
+
+Except for x4, the range for x vars is the same (4 through 14). The range for y var shows modest differences. 
+
+Is there a correlation between each x and y pair? Here's a check:
+
+```{r}
+cor(cuny9)
+```
+The table shows that the corrlation beween each x and y pair is the same: approximately 0.8164, a strong positive relationship.
+
+Looking at relationships between variables, it's notable that the x4 and y4 vars have negative correlations with the other pairs.
+
+Already we see a surprising consistency in descriptive statistics among these four data sets -- a consistency that is at odds with their visual depictions.
+
+We have seen the following plots earlier, but here they are given this new context in a slightly different form.
+
+```{r}
+ggplot(cuny9, aes(x=x1, y=y1)) +
+    geom_point(shape=1) + 
+    geom_smooth(method=lm)
+
+ggplot(cuny9, aes(x=x2, y=y2)) +
+    geom_point(shape=1) + 
+    geom_smooth(method=lm)
+
+ggplot(cuny9, aes(x=x3, y=y3)) +
+    geom_point(shape=1) + 
+    geom_smooth(method=lm)
+
+ggplot(cuny9, aes(x=x4, y=y4)) +
+    geom_point(shape=1) + 
+    geom_smooth(method=lm)
+```
+
+OK, so how can you even conceive of a regression line on data that looks like x4,y4?
+
+Let's run a linear model on each data set:
+
+```{r}
+fitdat1 <- lm(y1~x1, cuny9)
+summary(fit1)
+fitdat2 <- lm(y2~x2, cuny9)
+summary(fit2)
+fitdat3 <- lm(y3~x3, cuny9)
+summary(fit2)
+fitdat4 <- lm(y4~x4, cuny9)
+summary(fit2)
+```
+
+More similarities. Here's a line-by-line comparison:
+
+```{r}  
+fitdat1[[1]]
+fitdat2[[1]]
+fitdat3[[1]]
+fitdat4[[1]]
+```
+
+Let's take a closer look at x1,y1. In this case, the regression line seems like a better predictor. What if we reverse the dependent and independent variables? (This is a classic line of inquiry with this particular data set.)
+
+First the fit, then two plots with differnet regression lines.
+
+```{r}
+fitdat5 <- lm(x1~y1, cuny9)
+summary(fit5) 
+
+plot1 <- ggplot(cuny9, aes(x=x1, y=y1)) +
+    geom_point(shape=1) + 
+    geom_smooth(method=lm)
+
+plot2 <- ggplot(cuny9, aes(x=y1, y=x1)) +
+    geom_point(shape=1) + 
+    geom_smooth(method=lm)
+
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+Hmm. According to the adjusted R squared, they're not so different. And the lines have appox. the same slope. 
+
+I guess that makes sense since the x1 and y1 are strongly correlated.
+
+So, as we've all seen, four different data sets all have nearly the same summary descriptive statistics, and linear regressions all have the same/similar results. Linear regression does the best job of prediction on x1,y1. 
+
+One possible conclusion is that linear regression isn't good for summarizing data. 
+
+The next step is to explore whether data transformations can reveal new information. 
+
