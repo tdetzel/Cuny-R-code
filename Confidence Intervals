@@ -1,0 +1,55 @@
+## functions to calculate confidence intervals; two for large samples, two for small samples
+
+## function calcs 1-z*2 percent large sample confidence interval around mean from a vector x; r = round to
+## ex: zstat(x, .025, r) = 95 percent; zstat(x, .005, r) = 99 percent
+zstat <- function(x, z, r) {
+  m <- mean(x)
+  s <- sd(x)
+  n <- length(x)
+  zstat <- qnorm(1-z)
+  error <- zstat*s/sqrt(n)
+  left <- m-error
+  right <- m+error
+  tbl <- data.frame(Mean=round(m, r), zstat=round(zstat,3), sd=s, Error=round(error, r), Lower=round(left,r), Upper=round(right,r))
+  print(tbl)
+}
+
+## similar to zstat, except use when no data, only mean(x), sd(x) and n provided
+zsimp <- function(n, x, s, z, r) {
+  zstat <- qnorm(1-z)
+  error <- zstat*s/sqrt(n)
+  left <- x-error
+  right <- x+error
+  tbl <- data.frame(Mean=n, zstat=round(zstat,3), sd=s, Error=round(error, r), Lower=round(left,r), Upper=round(right,r))
+  print(tbl)
+}
+
+## same as zstat except for small samples < 30
+tstat <- function(x, t, r) {
+  m <- mean(x)
+  df <- length(x)-1
+  tstat <- qt((1-t), df)
+  error <- tstat*(sd(x)/sqrt(length(x)))
+  left <- m-error
+  right <- m+error
+  tbl <- data.frame(Mean=round(m,r), tstat=round(tstat,3), DF=df, Error=round(error,r), Lower=round(left,r), Upper=round(right,r))
+  print(tbl)
+}
+
+## same as zsimp except for samples < 30
+tsimp <- function(n, x, s, t, r) {
+  m <- mean(x)
+  df <- n-1
+  tstat <- qt((1-t), df)
+  error <- tstat*(s/sqrt(n))
+  left <- m-error
+  right <- m+error
+  tbl <- data.frame(Mean=round(m,r), tstat=round(tstat,3), DF=df, Error=round(error,r), Lower=round(left,r), Upper=round(right,r))
+  print(tbl)
+  ##print(round(m, r))
+  ##print(round(tstat, 3))
+  ##print(df)
+  ##print(round(error, r))
+  ##print(round(left, r))
+  ##print(round(right, r))
+}
